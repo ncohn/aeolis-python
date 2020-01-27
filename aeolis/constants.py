@@ -191,6 +191,7 @@ DEFAULT_CONFIG = {
     'refdate'                       : '1970-01-01 00:00', # [-] Reference datetime in netCDF output
     'callback'                      : None,               # Reference to callback function (e.g. example/callback.py':callback)
     'wind_convention'               : 'cartesian',        # Convention used for the wind direction in the input files
+    'fences': True,  # Turn on (true) or off (false) sand fences
 }
 
 

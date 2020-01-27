@@ -33,6 +33,7 @@ import operator
 
 # package modules
 import aeolis.shear
+import aeolis.sandfences
 from aeolis.utils import *
 
 
@@ -59,6 +60,10 @@ def initialize(s, p):
         s['shear'] = aeolis.shear.WindShear(s['x'], s['y'], s['zb'],
                                             L=100., l=10., z0=0.001,
                                             buffer_width=10.)
+
+    #initialize fence model
+    if p['fences']:
+        s = aeolis.sandfences.initialize(s, p)
         
     return s
 
@@ -126,6 +131,17 @@ def interpolate(s, p, t):
         
         s['dtaus'], s['dtaun'] = s['shear'].get_shear()
         s['taus'], s['taun'] = s['shear'].add_shear(s['taus'], s['taun'])
+        s['tau'] = np.hypot(s['taus'], s['taun'])
+
+
+    if p['fences']:
+        # calculate shear stress changes from fence
+        if t > 0:
+            s['fence_height'] = aeolis.sandfences.update_fence_height(s, p)
+
+        s['tau'], s['taus'], s['taun'] = aeolis.sandfences.fence_shear(s, p)
+        out = s['fence_height']
+        np.savetxt('fence_testing_height_new.txt', out)
         s['tau'] = np.hypot(s['taus'], s['taun'])
 
     return s

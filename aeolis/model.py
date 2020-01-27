@@ -269,6 +269,7 @@ class AeoLiS(IBmi):
             logger.log_and_raise('Unknown scheme [%s]' % self.p['scheme'], exc=ValueError)
 
         # update bed
+        self.s['zbold'] = self.s['zb']
         self.s = aeolis.bed.update(self.s, self.p)
         
         # avalanching

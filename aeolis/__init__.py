@@ -59,3 +59,4 @@ import aeolis.hydro
 import aeolis.threshold
 import aeolis.transport
 import aeolis.netcdf
+import aeolis.sandfences
